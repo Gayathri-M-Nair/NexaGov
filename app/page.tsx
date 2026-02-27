@@ -227,15 +227,15 @@ export default function HomePage() {
                   <CardContent className="flex h-full flex-col p-5">
                     <div className="mb-3 flex items-start justify-between gap-2">
                       <Badge variant="secondary" className="shrink-0 text-[10px]">
-                        {categories.find((c) => c.id === scheme.category)?.name}
+                        {scheme.category}
                       </Badge>
-                      <span className="text-[10px] text-muted-foreground">{scheme.steps.length} steps</span>
+                      <span className="text-[10px] text-muted-foreground">{scheme.roadmap.length} steps</span>
                     </div>
                     <h3 className="mb-1.5 font-semibold leading-snug text-card-foreground group-hover:text-primary">
-                      {scheme.title}
+                      {scheme.name}
                     </h3>
                     <p className="mb-3 flex-1 text-xs leading-relaxed text-muted-foreground">
-                      {scheme.shortDescription}
+                      {scheme.benefit}
                     </p>
                     <div className="flex items-center justify-between border-t border-border pt-3">
                       <span className="text-[10px] text-muted-foreground">{scheme.ministry}</span>

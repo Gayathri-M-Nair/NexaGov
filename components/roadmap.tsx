@@ -22,21 +22,21 @@ interface RoadmapProps {
 }
 
 export function Roadmap({ steps }: RoadmapProps) {
-  const [expandedStep, setExpandedStep] = useState<string | null>(steps[0]?.id || null)
-  const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set())
+  const [expandedStep, setExpandedStep] = useState<number | null>(steps[0]?.step || null)
+  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set())
 
-  function toggleStep(id: string) {
-    setExpandedStep(expandedStep === id ? null : id)
+  function toggleStep(stepNum: number) {
+    setExpandedStep(expandedStep === stepNum ? null : stepNum)
   }
 
-  function toggleComplete(id: string, e: React.MouseEvent) {
+  function toggleComplete(stepNum: number, e: React.MouseEvent) {
     e.stopPropagation()
     setCompletedSteps((prev) => {
       const next = new Set(prev)
-      if (next.has(id)) {
-        next.delete(id)
+      if (next.has(stepNum)) {
+        next.delete(stepNum)
       } else {
-        next.add(id)
+        next.add(stepNum)
       }
       return next
     })
@@ -66,16 +66,16 @@ export function Roadmap({ steps }: RoadmapProps) {
       {/* Steps */}
       <div className="relative">
         {steps.map((step, index) => {
-          const isExpanded = expandedStep === step.id
-          const isCompleted = completedSteps.has(step.id)
+          const isExpanded = expandedStep === step.step
+          const isCompleted = completedSteps.has(step.step)
           const isLast = index === steps.length - 1
 
           return (
-            <div key={step.id} className="relative flex gap-4">
+            <div key={step.step} className="relative flex gap-4">
               {/* Timeline Line & Circle */}
               <div className="flex flex-col items-center">
                 <button
-                  onClick={(e) => toggleComplete(step.id, e)}
+                  onClick={(e) => toggleComplete(step.step, e)}
                   className={cn(
                     "relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 transition-all",
                     isCompleted
@@ -84,12 +84,12 @@ export function Roadmap({ steps }: RoadmapProps) {
                         ? "border-primary bg-primary text-primary-foreground"
                         : "border-border bg-card text-muted-foreground hover:border-primary/50"
                   )}
-                  aria-label={isCompleted ? `Mark step ${index + 1} as incomplete` : `Mark step ${index + 1} as complete`}
+                  aria-label={isCompleted ? `Mark step ${step.step} as incomplete` : `Mark step ${step.step} as complete`}
                 >
                   {isCompleted ? (
                     <CheckCircle2 className="h-4 w-4" />
                   ) : (
-                    <span className="text-xs font-bold">{index + 1}</span>
+                    <span className="text-xs font-bold">{step.step}</span>
                   )}
                 </button>
                 {!isLast && (
@@ -105,7 +105,7 @@ export function Roadmap({ steps }: RoadmapProps) {
               {/* Step Content */}
               <div className={cn("mb-4 flex-1 pb-2", !isLast && "pb-4")}>
                 <button
-                  onClick={() => toggleStep(step.id)}
+                  onClick={() => toggleStep(step.step)}
                   className="flex w-full items-start justify-between text-left"
                 >
                   <div className="flex-1">
@@ -121,7 +121,7 @@ export function Roadmap({ steps }: RoadmapProps) {
                     >
                       {step.title}
                     </h3>
-                    <p className="mt-0.5 text-xs text-muted-foreground">{step.description}</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{step.action}</p>
                   </div>
                   <div className="ml-2 mt-0.5 shrink-0 text-muted-foreground">
                     {isExpanded ? (
@@ -138,34 +138,34 @@ export function Roadmap({ steps }: RoadmapProps) {
                     <CardContent className="flex flex-col gap-4 p-4">
                       {/* Detailed Description */}
                       <p className="text-xs leading-relaxed text-foreground/80">
-                        {step.details}
+                        {step.action}
                       </p>
 
                       {/* Meta Info */}
                       <div className="grid gap-2 sm:grid-cols-3">
-                        <div className="flex items-center gap-2 rounded-md bg-secondary px-3 py-2">
-                          <MapPin className="h-3.5 w-3.5 shrink-0 text-primary" />
-                          <div>
-                            <p className="text-[10px] text-muted-foreground">Location</p>
-                            <p className="text-xs font-medium text-foreground">{step.location}</p>
+                        {step.location && (
+                          <div className="flex items-center gap-2 rounded-md bg-secondary px-3 py-2">
+                            <MapPin className="h-3.5 w-3.5 shrink-0 text-primary" />
+                            <div>
+                              <p className="text-[10px] text-muted-foreground">Location</p>
+                              <p className="text-xs font-medium text-foreground">{step.location}</p>
+                            </div>
                           </div>
-                        </div>
+                        )}
                         <div className="flex items-center gap-2 rounded-md bg-secondary px-3 py-2">
                           <Clock className="h-3.5 w-3.5 shrink-0 text-primary" />
                           <div>
                             <p className="text-[10px] text-muted-foreground">Estimated Time</p>
-                            <p className="text-xs font-medium text-foreground">{step.estimatedTime}</p>
+                            <p className="text-xs font-medium text-foreground">{step.time}</p>
                           </div>
                         </div>
-                        {step.copies > 0 && (
-                          <div className="flex items-center gap-2 rounded-md bg-secondary px-3 py-2">
-                            <Copy className="h-3.5 w-3.5 shrink-0 text-primary" />
-                            <div>
-                              <p className="text-[10px] text-muted-foreground">Copies Needed</p>
-                              <p className="text-xs font-medium text-foreground">{step.copies} set(s)</p>
-                            </div>
+                        <div className="flex items-center gap-2 rounded-md bg-secondary px-3 py-2">
+                          <FileText className="h-3.5 w-3.5 shrink-0 text-primary" />
+                          <div>
+                            <p className="text-[10px] text-muted-foreground">Method</p>
+                            <p className="text-xs font-medium text-foreground">{step.method}</p>
                           </div>
-                        )}
+                        </div>
                       </div>
 
                       {/* Documents Required */}
@@ -189,27 +189,9 @@ export function Roadmap({ steps }: RoadmapProps) {
                         </div>
                       )}
 
-                      {/* Tips */}
-                      {step.tips.length > 0 && (
-                        <div className="rounded-lg bg-accent/5 p-3">
-                          <h4 className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-accent">
-                            <Lightbulb className="h-3.5 w-3.5" />
-                            Tips
-                          </h4>
-                          <ul className="flex flex-col gap-1">
-                            {step.tips.map((tip, i) => (
-                              <li key={i} className="flex items-start gap-1.5 text-xs text-foreground/70">
-                                <Circle className="mt-1 h-1.5 w-1.5 shrink-0 fill-accent/50 text-accent/50" />
-                                {tip}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-
                       {/* Complete Button */}
                       <button
-                        onClick={(e) => toggleComplete(step.id, e)}
+                        onClick={(e) => toggleComplete(step.step, e)}
                         className={cn(
                           "flex items-center justify-center gap-2 rounded-md px-4 py-2 text-xs font-medium transition-colors",
                           isCompleted

@@ -54,45 +54,22 @@ export default function SchemeDetailPage({
               <div className="flex-1">
                 <div className="mb-2 flex flex-wrap items-center gap-2">
                   <Badge className="border-primary-foreground/20 bg-primary-foreground/10 text-primary-foreground text-[10px]">
-                    {category?.name}
-                  </Badge>
-                  <Badge className="border-primary-foreground/20 bg-primary-foreground/10 text-primary-foreground text-[10px]">
-                    <Building2 className="mr-1 h-3 w-3" />
-                    {scheme.ministry}
+                    {scheme.category}
                   </Badge>
                 </div>
-                <h1 className="text-2xl font-bold md:text-3xl">{scheme.title}</h1>
+                <h1 className="text-2xl font-bold md:text-3xl">{scheme.name}</h1>
                 <p className="mt-2 text-sm text-primary-foreground/75 md:text-base">
-                  {scheme.description}
+                  {scheme.benefit}
                 </p>
               </div>
             </div>
 
             {/* Quick Info */}
             <div className="mt-6 flex flex-wrap gap-3">
-              {scheme.applicationDeadline && (
-                <div className="flex items-center gap-1.5 rounded-md bg-primary-foreground/10 px-3 py-1.5 text-xs">
-                  <Calendar className="h-3.5 w-3.5" />
-                  Deadline: {scheme.applicationDeadline}
-                </div>
-              )}
-              {scheme.helplineNumber && (
-                <div className="flex items-center gap-1.5 rounded-md bg-primary-foreground/10 px-3 py-1.5 text-xs">
-                  <Phone className="h-3.5 w-3.5" />
-                  {scheme.helplineNumber}
-                </div>
-              )}
-              {scheme.websiteUrl && (
-                <a
-                  href={scheme.websiteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 rounded-md bg-primary-foreground/10 px-3 py-1.5 text-xs transition-colors hover:bg-primary-foreground/20"
-                >
-                  <ExternalLink className="h-3.5 w-3.5" />
-                  Official Website
-                </a>
-              )}
+              <div className="flex items-center gap-1.5 rounded-md bg-primary-foreground/10 px-3 py-1.5 text-xs">
+                <Phone className="h-3.5 w-3.5" />
+                Kerala Govt Helpline
+              </div>
             </div>
           </div>
         </div>
@@ -103,9 +80,9 @@ export default function SchemeDetailPage({
             <div className="lg:col-span-2">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-lg font-bold text-foreground">Application Roadmap</h2>
-                <span className="text-xs text-muted-foreground">{scheme.steps.length} steps</span>
+                <span className="text-xs text-muted-foreground">{scheme.roadmap.length} steps</span>
               </div>
-              <Roadmap steps={scheme.steps} />
+              <Roadmap steps={scheme.roadmap} />
             </div>
 
             {/* Sidebar */}
@@ -113,15 +90,11 @@ export default function SchemeDetailPage({
               {/* Benefits */}
               <Card className="border-border">
                 <CardContent className="p-4">
-                  <h3 className="mb-3 text-sm font-semibold text-card-foreground">Key Benefits</h3>
-                  <ul className="flex flex-col gap-2">
-                    {scheme.benefits.map((benefit, i) => (
-                      <li key={i} className="flex items-start gap-2 text-xs text-foreground/80">
-                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
-                        {benefit}
-                      </li>
-                    ))}
-                  </ul>
+                  <h3 className="mb-3 text-sm font-semibold text-card-foreground">Key Benefit</h3>
+                  <div className="flex items-start gap-2 text-xs text-foreground/80">
+                    <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
+                    {scheme.benefit}
+                  </div>
                 </CardContent>
               </Card>
 
@@ -130,28 +103,22 @@ export default function SchemeDetailPage({
                 <CardContent className="p-4">
                   <h3 className="mb-3 text-sm font-semibold text-card-foreground">Eligibility Criteria</h3>
                   <div className="flex flex-col gap-2">
-                    {scheme.eligibility.minAge && (
+                    {scheme.eligibility.min_age && (
                       <div className="flex items-center justify-between rounded bg-secondary px-2.5 py-1.5">
                         <span className="text-[10px] text-muted-foreground">Min Age</span>
-                        <span className="text-xs font-medium text-foreground">{scheme.eligibility.minAge} years</span>
+                        <span className="text-xs font-medium text-foreground">{scheme.eligibility.min_age} years</span>
                       </div>
                     )}
-                    {scheme.eligibility.maxAge && (
+                    {scheme.eligibility.max_age && (
                       <div className="flex items-center justify-between rounded bg-secondary px-2.5 py-1.5">
                         <span className="text-[10px] text-muted-foreground">Max Age</span>
-                        <span className="text-xs font-medium text-foreground">{scheme.eligibility.maxAge} years</span>
+                        <span className="text-xs font-medium text-foreground">{scheme.eligibility.max_age} years</span>
                       </div>
                     )}
-                    {scheme.eligibility.economicClass && (
-                      <div className="rounded bg-secondary px-2.5 py-1.5">
-                        <span className="text-[10px] text-muted-foreground">Economic Class</span>
-                        <div className="mt-1 flex flex-wrap gap-1">
-                          {scheme.eligibility.economicClass.map((c) => (
-                            <Badge key={c} variant="outline" className="border-border text-[10px] text-foreground">
-                              {c}
-                            </Badge>
-                          ))}
-                        </div>
+                    {scheme.eligibility.income_max && (
+                      <div className="flex items-center justify-between rounded bg-secondary px-2.5 py-1.5">
+                        <span className="text-[10px] text-muted-foreground">Max Income</span>
+                        <span className="text-xs font-medium text-foreground">₹{scheme.eligibility.income_max.toLocaleString()}</span>
                       </div>
                     )}
                     {scheme.eligibility.gender && (
@@ -166,28 +133,24 @@ export default function SchemeDetailPage({
                         </div>
                       </div>
                     )}
-                    {scheme.eligibility.education && (
+                    {scheme.eligibility.ration_card && (
                       <div className="rounded bg-secondary px-2.5 py-1.5">
-                        <span className="text-[10px] text-muted-foreground">Education</span>
+                        <span className="text-[10px] text-muted-foreground">Ration Card</span>
                         <div className="mt-1 flex flex-wrap gap-1">
-                          {scheme.eligibility.education.map((e) => (
-                            <Badge key={e} variant="outline" className="border-border text-[10px] text-foreground">
-                              {e}
+                          {scheme.eligibility.ration_card.map((r) => (
+                            <Badge key={r} variant="outline" className="border-border text-[10px] text-foreground">
+                              {r}
                             </Badge>
                           ))}
                         </div>
                       </div>
                     )}
-                    {scheme.eligibility.occupation && (
+                    {scheme.eligibility.education && (
                       <div className="rounded bg-secondary px-2.5 py-1.5">
-                        <span className="text-[10px] text-muted-foreground">Occupation</span>
-                        <div className="mt-1 flex flex-wrap gap-1">
-                          {scheme.eligibility.occupation.map((o) => (
-                            <Badge key={o} variant="outline" className="border-border text-[10px] text-foreground">
-                              {o}
-                            </Badge>
-                          ))}
-                        </div>
+                        <span className="text-[10px] text-muted-foreground">Education</span>
+                        <Badge variant="outline" className="border-border text-[10px] text-foreground">
+                          {scheme.eligibility.education}
+                        </Badge>
                       </div>
                     )}
                   </div>

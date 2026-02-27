@@ -111,25 +111,23 @@ function SchemesContent() {
                     <CardContent className="flex h-full flex-col p-5">
                       <div className="mb-3 flex items-start justify-between gap-2">
                         <Badge variant="secondary" className="shrink-0 text-[10px]">
-                          {categories.find((c) => c.id === scheme.category)?.name}
+                          {scheme.category}
                         </Badge>
-                        <span className="text-[10px] text-muted-foreground">{scheme.steps.length} steps</span>
+                        <span className="text-[10px] text-muted-foreground">{scheme.roadmap.length} steps</span>
                       </div>
                       <h3 className="mb-1.5 font-semibold leading-snug text-card-foreground group-hover:text-primary">
-                        {scheme.title}
+                        {scheme.name}
                       </h3>
                       <p className="mb-3 flex-1 text-xs leading-relaxed text-muted-foreground">
-                        {scheme.shortDescription}
+                        {scheme.benefit}
                       </p>
                       <div className="flex flex-wrap gap-1.5 border-t border-border pt-3">
-                        {scheme.benefits.slice(0, 2).map((b, i) => (
-                          <span key={i} className="rounded bg-accent/10 px-2 py-0.5 text-[10px] text-accent">
-                            {b.split(" ").slice(0, 5).join(" ")}...
-                          </span>
-                        ))}
+                        <span className="rounded bg-accent/10 px-2 py-0.5 text-[10px] text-accent">
+                          {scheme.benefit.split(" ").slice(0, 5).join(" ")}...
+                        </span>
                       </div>
                       <div className="mt-3 flex items-center justify-between">
-                        <span className="text-[10px] text-muted-foreground">{scheme.ministry}</span>
+                        <span className="text-[10px] text-muted-foreground">{scheme.category}</span>
                         <span className="flex items-center gap-1 text-xs font-medium text-primary">
                           View Roadmap <ArrowRight className="h-3 w-3" />
                         </span>
