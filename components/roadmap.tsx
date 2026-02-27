@@ -1,0 +1,242 @@
+"use client"
+
+import { useState } from "react"
+import type { SchemeStep } from "@/lib/schemes-data"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import {
+  CheckCircle2,
+  Circle,
+  Clock,
+  MapPin,
+  FileText,
+  Copy,
+  Lightbulb,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react"
+import { cn } from "@/lib/utils"
+
+interface RoadmapProps {
+  steps: SchemeStep[]
+}
+
+export function Roadmap({ steps }: RoadmapProps) {
+  const [expandedStep, setExpandedStep] = useState<string | null>(steps[0]?.id || null)
+  const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set())
+
+  function toggleStep(id: string) {
+    setExpandedStep(expandedStep === id ? null : id)
+  }
+
+  function toggleComplete(id: string, e: React.MouseEvent) {
+    e.stopPropagation()
+    setCompletedSteps((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) {
+        next.delete(id)
+      } else {
+        next.add(id)
+      }
+      return next
+    })
+  }
+
+  const completedCount = completedSteps.size
+  const progress = steps.length > 0 ? (completedCount / steps.length) * 100 : 0
+
+  return (
+    <div className="flex flex-col gap-0">
+      {/* Progress Bar */}
+      <div className="mb-6 rounded-lg bg-secondary p-4">
+        <div className="mb-2 flex items-center justify-between">
+          <span className="text-xs font-medium text-foreground">Application Progress</span>
+          <span className="text-xs text-muted-foreground">
+            {completedCount} of {steps.length} steps completed
+          </span>
+        </div>
+        <div className="h-2 overflow-hidden rounded-full bg-border">
+          <div
+            className="h-full rounded-full bg-accent transition-all duration-500"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Steps */}
+      <div className="relative">
+        {steps.map((step, index) => {
+          const isExpanded = expandedStep === step.id
+          const isCompleted = completedSteps.has(step.id)
+          const isLast = index === steps.length - 1
+
+          return (
+            <div key={step.id} className="relative flex gap-4">
+              {/* Timeline Line & Circle */}
+              <div className="flex flex-col items-center">
+                <button
+                  onClick={(e) => toggleComplete(step.id, e)}
+                  className={cn(
+                    "relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 transition-all",
+                    isCompleted
+                      ? "border-accent bg-accent text-accent-foreground"
+                      : isExpanded
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border bg-card text-muted-foreground hover:border-primary/50"
+                  )}
+                  aria-label={isCompleted ? `Mark step ${index + 1} as incomplete` : `Mark step ${index + 1} as complete`}
+                >
+                  {isCompleted ? (
+                    <CheckCircle2 className="h-4 w-4" />
+                  ) : (
+                    <span className="text-xs font-bold">{index + 1}</span>
+                  )}
+                </button>
+                {!isLast && (
+                  <div
+                    className={cn(
+                      "w-0.5 flex-1",
+                      isCompleted ? "bg-accent" : "bg-border"
+                    )}
+                  />
+                )}
+              </div>
+
+              {/* Step Content */}
+              <div className={cn("mb-4 flex-1 pb-2", !isLast && "pb-4")}>
+                <button
+                  onClick={() => toggleStep(step.id)}
+                  className="flex w-full items-start justify-between text-left"
+                >
+                  <div className="flex-1">
+                    <h3
+                      className={cn(
+                        "text-sm font-semibold",
+                        isCompleted
+                          ? "text-accent"
+                          : isExpanded
+                            ? "text-foreground"
+                            : "text-foreground/80"
+                      )}
+                    >
+                      {step.title}
+                    </h3>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{step.description}</p>
+                  </div>
+                  <div className="ml-2 mt-0.5 shrink-0 text-muted-foreground">
+                    {isExpanded ? (
+                      <ChevronUp className="h-4 w-4" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4" />
+                    )}
+                  </div>
+                </button>
+
+                {/* Expanded Details */}
+                {isExpanded && (
+                  <Card className="mt-3 border-border">
+                    <CardContent className="flex flex-col gap-4 p-4">
+                      {/* Detailed Description */}
+                      <p className="text-xs leading-relaxed text-foreground/80">
+                        {step.details}
+                      </p>
+
+                      {/* Meta Info */}
+                      <div className="grid gap-2 sm:grid-cols-3">
+                        <div className="flex items-center gap-2 rounded-md bg-secondary px-3 py-2">
+                          <MapPin className="h-3.5 w-3.5 shrink-0 text-primary" />
+                          <div>
+                            <p className="text-[10px] text-muted-foreground">Location</p>
+                            <p className="text-xs font-medium text-foreground">{step.location}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 rounded-md bg-secondary px-3 py-2">
+                          <Clock className="h-3.5 w-3.5 shrink-0 text-primary" />
+                          <div>
+                            <p className="text-[10px] text-muted-foreground">Estimated Time</p>
+                            <p className="text-xs font-medium text-foreground">{step.estimatedTime}</p>
+                          </div>
+                        </div>
+                        {step.copies > 0 && (
+                          <div className="flex items-center gap-2 rounded-md bg-secondary px-3 py-2">
+                            <Copy className="h-3.5 w-3.5 shrink-0 text-primary" />
+                            <div>
+                              <p className="text-[10px] text-muted-foreground">Copies Needed</p>
+                              <p className="text-xs font-medium text-foreground">{step.copies} set(s)</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Documents Required */}
+                      {step.documents.length > 0 && (
+                        <div>
+                          <h4 className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-foreground">
+                            <FileText className="h-3.5 w-3.5 text-primary" />
+                            Documents Required
+                          </h4>
+                          <div className="flex flex-wrap gap-1.5">
+                            {step.documents.map((doc, i) => (
+                              <Badge
+                                key={i}
+                                variant="outline"
+                                className="border-border bg-card text-[10px] text-foreground"
+                              >
+                                {doc}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Tips */}
+                      {step.tips.length > 0 && (
+                        <div className="rounded-lg bg-accent/5 p-3">
+                          <h4 className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-accent">
+                            <Lightbulb className="h-3.5 w-3.5" />
+                            Tips
+                          </h4>
+                          <ul className="flex flex-col gap-1">
+                            {step.tips.map((tip, i) => (
+                              <li key={i} className="flex items-start gap-1.5 text-xs text-foreground/70">
+                                <Circle className="mt-1 h-1.5 w-1.5 shrink-0 fill-accent/50 text-accent/50" />
+                                {tip}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Complete Button */}
+                      <button
+                        onClick={(e) => toggleComplete(step.id, e)}
+                        className={cn(
+                          "flex items-center justify-center gap-2 rounded-md px-4 py-2 text-xs font-medium transition-colors",
+                          isCompleted
+                            ? "bg-accent/10 text-accent"
+                            : "bg-primary text-primary-foreground hover:bg-primary/90"
+                        )}
+                      >
+                        {isCompleted ? (
+                          <>
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                            Completed - Click to Undo
+                          </>
+                        ) : (
+                          <>
+                            <Circle className="h-3.5 w-3.5" />
+                            Mark as Completed
+                          </>
+                        )}
+                      </button>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
