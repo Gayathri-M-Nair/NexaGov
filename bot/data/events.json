@@ -1,0 +1,186 @@
+{
+  "kerala_schemes": [
+    {
+      "id": "STHREE_001",
+      "name": "Sthree Suraksha Pension Scheme",
+      "category": "Women Welfare",
+      "eligibility": {
+        "min_age": 35,
+        "max_age": 60,
+        "gender": ["Female", "Transgender"],
+        "income_max": 120000,
+        "ration_card": ["Yellow", "Pink"]
+      },
+      "benefit": "₹1000/month",
+      "roadmap": [
+        {
+          "step": 1,
+          "title": "Access KSMART Portal",
+          "action": "Visit ksmart.lsgkerala.gov.in → Click Apply",
+          "method": "Online",
+          "documents": [],
+          "time": "15 mins"
+        },
+        {
+          "step": 2,
+          "title": "Aadhaar Registration", 
+          "action": "Enter Aadhaar → OTP verification",
+          "method": "Online",
+          "documents": ["Aadhaar Card"],
+          "time": "5 mins"
+        },
+        {
+          "step": 3,
+          "title": "Fill 6-Stage Form",
+          "action": "Complete all 6 stages + upload docs",
+          "method": "Online", 
+          "documents": ["Ration Card", "Bank Passbook"],
+          "time": "45 mins"
+        },
+        {
+          "step": 4,
+          "title": "Submit Application",
+          "action": "Review → Submit → Get Acknowledgement",
+          "method": "Online",
+          "documents": ["Photo"],
+          "time": "10 mins"
+        }
+      ]
+    },
+    {
+      "id": "PENSION_001",
+      "name": "Kerala Social Security Pension",
+      "category": "Senior Citizens", 
+      "eligibility": {
+        "min_age": 60,
+        "income_max": 10000,
+        "ration_card": ["Yellow", "Pink"]
+      },
+      "benefit": "₹1600/month",
+      "roadmap": [
+        {
+          "step": 1,
+          "title": "Visit Panchayat Office",
+          "action": "Get pension application form",
+          "method": "Offline",
+          "documents": [],
+          "time": "15 mins",
+          "location": "Gram Panchayat"
+        },
+        {
+          "step": 2,
+          "title": "Fill Application",
+          "action": "Complete form + attach documents",
+          "method": "Offline",
+          "documents": ["Aadhaar", "Ration Card", "Bank Passbook"],
+          "time": "30 mins"
+        },
+        {
+          "step": 3,
+          "title": "Submit to Secretary",
+          "action": "Hand over to Panchayat Secretary",
+          "method": "Offline",
+          "documents": [],
+          "time": "5 mins"
+        }
+      ]
+    },
+    {
+      "id": "EMPLOY_001", 
+      "name": "Chief Minister's Connect to Work",
+      "category": "Employment",
+      "eligibility": {
+        "min_age": 18,
+        "max_age": 30,
+        "income_max": 100000,
+        "education": "SSLC+"
+      },
+      "benefit": "₹1000/month x 12 months",
+      "roadmap": [
+        {
+          "step": 1,
+          "title": "Register Online",
+          "action": "employment.kerala.gov.in → Aadhaar login",
+          "method": "Online",
+          "documents": ["Aadhaar"],
+          "time": "10 mins"
+        },
+        {
+          "step": 2,
+          "title": "Upload Documents",
+          "action": "Upload income + education certificates",
+          "method": "Online",
+          "documents": ["SSLC", "Income Certificate"],
+          "time": "15 mins"
+        },
+        {
+          "step": 3,
+          "title": "Get Monthly Aid",
+          "action": "Automated approval → DBT starts",
+          "method": "Automated",
+          "documents": [],
+          "time": "Instant"
+        }
+      ]
+    },
+    {
+      "id": "HOUSING_001",
+      "name": "Life Mission Housing Scheme",
+      "category": "Housing",
+      "eligibility": {
+        "income_max": 300000,
+        "housing_status": ["Homeless", "Kutcha house"],
+        "ration_card": ["Yellow", "Pink"]
+      },
+      "benefit": "₹4-6 Lakh house grant", 
+      "roadmap": [
+        {
+          "step": 1,
+          "title": "Online Registration",
+          "action": "life.kerala.gov.in → Aadhaar register",
+          "method": "Online",
+          "documents": ["Aadhaar", "Ration Card"],
+          "time": "20 mins"
+        },
+        {
+          "step": 2,
+          "title": "Priority Lottery",
+          "action": "District lottery selection",
+          "method": "Automated",
+          "documents": [],
+          "time": "Varies"
+        }
+      ]
+    },
+    {
+      "id": "UNWED_001",
+      "name": "Snehasparsham (Unwed Mothers)",
+      "category": "Women Welfare",
+      "eligibility": {
+        "marital_status": "Unmarried mother",
+        "income_max": 25000,
+        "child_age_max": 18
+      },
+      "benefit": "₹1000/month + medical aid",
+      "roadmap": [
+        {
+          "step": 1,
+          "title": "Visit WCD Office",
+          "action": "District Women & Child Development Office",
+          "method": "Offline",
+          "documents": ["Child Birth Certificate"],
+          "time": "30 mins",
+          "location": "WCD Office"
+        },
+        {
+          "step": 2,
+          "title": "Submit Application", 
+          "action": "Fill form + verification",
+          "method": "Offline",
+          "documents": ["Aadhaar", "Income Certificate"],
+          "time": "20 mins"
+        }
+      ]
+    }
+  ]
+}
