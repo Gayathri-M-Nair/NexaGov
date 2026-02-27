@@ -12,7 +12,7 @@ export function SiteFooter() {
                 <Landmark className="h-4 w-4" />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-bold tracking-wide">JAN SEVA KENDRA</span>
+                <span className="text-sm font-bold tracking-wide">SahAI</span>
                 <span className="text-[10px] text-primary-foreground/60">Government Policy Portal</span>
               </div>
             </Link>

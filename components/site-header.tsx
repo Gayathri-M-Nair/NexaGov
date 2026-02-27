@@ -25,7 +25,7 @@ export function SiteHeader() {
             <Landmark className="h-5 w-5" />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-bold leading-tight tracking-wide">NexaGov</span>
+            <span className="text-sm font-bold leading-tight tracking-wide">SahAI</span>
             <span className="text-[10px] leading-tight text-primary-foreground/70">Government Policy Portal</span>
           </div>
         </Link>

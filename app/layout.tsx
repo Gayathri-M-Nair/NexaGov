@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const sourceSans = Source_Sans_3({ subsets: ["latin"], variable: "--font-source-sans" })
 
 export const metadata: Metadata = {
-  title: 'Jan Seva Kendra - Government Policy Portal',
+  title: 'SahAI- Government Policy Portal',
   description: 'Your one-stop portal to discover government schemes, check eligibility, and get step-by-step roadmaps for applications.',
   generator: 'v0.app',
   icons: {
